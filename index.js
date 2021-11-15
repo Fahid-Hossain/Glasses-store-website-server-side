@@ -23,6 +23,7 @@ async function run() {
         // console.log("database connected successfully");
         const database = client.db("Chasmish_Glasses");
         const productCollections = database.collection("products");
+        const orderCollections = database.collection("orders");
 
         //post api request products
         app.post("/products",async(req,res)=>{
@@ -49,6 +50,24 @@ async function run() {
             res.send(product);
 
         })
+
+        //post api orders 
+        app.post("/orders",async (req, res) =>{
+            const orders = req.body;
+            // console.log(orders);
+            const result = await orderCollections.insertOne(orders);
+            res.json(result);
+        })
+
+        //get api orders 
+        app.get("/orders",async (req, res)=>{
+            const cursor = orderCollections.find({})
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
+
     }
     finally {
         // await client.close();
