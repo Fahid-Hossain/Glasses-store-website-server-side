@@ -26,7 +26,7 @@ async function run() {
         const orderCollections = database.collection("orders");
 
         //post api request products
-        app.post("/products",async(req,res)=>{
+        app.post("/products", async (req, res) => {
             const products = req.body;
             // console.log("hit the post api",products);
             const result = await productCollections.insertOne(products);
@@ -35,7 +35,7 @@ async function run() {
         })
 
         //get api all products
-        app.get("/products",async (req, res) => {
+        app.get("/products", async (req, res) => {
             const cursor = productCollections.find({})
             const products = await cursor.toArray();
             res.send(products);
@@ -45,22 +45,34 @@ async function run() {
         //get api single product
         app.get("/products/:id", async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const product = await productCollections.findOne(query);
             res.send(product);
 
         })
 
         //post api orders 
-        app.post("/orders",async (req, res) =>{
+        app.post("/orders", async (req, res) => {
             const orders = req.body;
             // console.log(orders);
             const result = await orderCollections.insertOne(orders);
             res.json(result);
         })
 
+
+
+        //get api user orders by email
+        // app.get("/orders", async (req, res) => {
+        //     const email = req.query.email;
+        //     const query = { email: email }
+        //     const cursor = orderCollections.find(query)
+        //     const result = await cursor.toArray();
+        //     res.json(result);
+
+        // })
+
         //get api orders 
-        app.get("/orders",async (req, res)=>{
+        app.get("/orders", async (req, res) => {
             const cursor = orderCollections.find({})
             const result = await cursor.toArray();
             res.send(result);
