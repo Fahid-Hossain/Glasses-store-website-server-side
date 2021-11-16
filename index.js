@@ -24,6 +24,7 @@ async function run() {
         const database = client.db("Chasmish_Glasses");
         const productCollections = database.collection("products");
         const orderCollections = database.collection("orders");
+        const userCollections = database.collection("users");
 
         //post api request products
         app.post("/products", async (req, res) => {
@@ -84,6 +85,14 @@ async function run() {
             const query = {_id: ObjectId(id)};
             const result = await orderCollections.deleteOne(query);
             res.json(result);
+        })
+
+        // post user data
+        app.post("/users",async(req,res) => {
+            const user = req.body;
+            const result = await userCollections.insertOne(user);
+            res.json(result);
+            console.log(result);
         })
 
 
