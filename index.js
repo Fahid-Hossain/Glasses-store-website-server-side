@@ -104,6 +104,14 @@ async function run() {
             res.json(result);
         })
 
+        // Delete products by admin
+        app.delete("/products/:id",async (req, res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)}
+            const result = await productCollections.deleteOne(query);
+            res.json(result);
+        })
+
         //Updata Oreder status pending to approved
         app.put("/orders/:id", async(req, res)=>{
             const id = req.params.id;
