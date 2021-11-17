@@ -104,6 +104,23 @@ async function run() {
             res.json(result);
         })
 
+        //Updata Oreder status pending to approved
+        app.put("/orders/:id", async(req, res)=>{
+            const id = req.params.id;
+            const filter = {_id: ObjectId(id)};
+            const updatedStatus = req.body;
+            console.log("updated user",id);
+            const options = {upsert: true};
+            const updateDoc = {
+                $set : {
+                    status : updatedStatus,
+                }
+            }
+            console.log(updatedStatus);
+            const result = await orderCollections.updateOne(filter,updateDoc,options);
+            res.json(result);
+        })
+
         // post user data
         app.post("/users",async(req,res) => {
             const user = req.body;
